@@ -1,0 +1,144 @@
+import requests
+import numpy as np
+import pandas as pd
+import csv
+with open('C:\\Users\Max Weiss\Desktop\Reps_for_jup.csv', 'rt') as f:
+    reader = csv.reader(f)
+    your_list = list(reader)
+    
+print (your_list[0])
+
+b = list(range(0, 4020))
+a = 0
+names = list()
+
+for a in b:
+    r = requests.get(your_list[a][0])
+    i = 0
+    for char in r.text:
+        if char == '@' and r.text[i-1] == '>' and r.text[i-2] == 't':
+            j = i + 4
+            name = []
+            while r.text[j] != '<':
+                name.append(r.text[j])
+                j += 1
+            if len(name) > 1 and len(name)< 16:
+                names.append(''.join(name))
+        i += 1
+    a += 1
+    if a % 20 == 0:
+        print(a)
+print (list(set(names)))
+
+sens = ["RonWyden",
+"SenMarkey",
+"SenatorDurbin",
+"SenFranken",
+"SenatorCantwell",
+"MartinHeinrich",
+"SenDuckworth",
+"amyklobuchar",
+"SenSchumer",
+"timkaine",
+"PattyMurray",
+"SenatorBaldwin",
+"SenFeinstein",
+"SenatorTester",
+"ChrisVanHollen",
+"SenWhitehouse",
+"SenBlumenthal",
+"ChrisCoons",
+"SenWarren",
+"MarkWarner",
+"SenatorLeahy",
+"SenatorTomUdall",
+"McCaskillOffice",
+"Sen_JoeManchin",
+"SenBennetCO",
+"SenBobCasey",
+"SenDonnelly",
+"SenatorHeitkamp",
+"SenatorHassan",
+"SenatorCarper",
+"SenatorShaheen",
+"SenBooker",
+"SenatorMenendez",
+"SenMurphyOffice",
+"SenGillibrand",
+"maziehirono",
+"SenGaryPeters",
+"SenKamalaHarris",
+"SenJeffMerkley",
+"SenJackReed",
+"SenStabenow",
+"SenCortezMasto",
+"SenBrianSchatz",
+"SenatorCardin",
+"SenSherrodBrown",
+"SenBillNelson",
+"ChuckGrassley",
+"LindseyGrahamSC",
+"SenToomey",
+"SenatorTimScott",
+"SenRubioPress",
+"SenatorWicker",
+"SenatorBurr",
+"SteveDaines",
+"SenCoryGardner",
+"senorrinhatch",
+"SenatorIsakson",
+"BillCassidy",
+"SenatorEnzi",
+"SenatorFischer",
+"SenatorLankford",
+"SenDeanHeller",
+"senrobportman",
+"RoyBlunt",
+"JohnCornyn",
+"SenToddYoung",
+"sendavidperdue",
+"JeffFlake",
+"SenJohnHoeven",
+"SenThomTillis",
+"SenJohnMcCain",
+"SenTedCruz",
+"SenCapito",
+"RandPaul",
+"SenPatRoberts",
+"SenJoniErnst",
+"SenRonJohnson",
+"McConnellPress",
+"SenJohnThune",
+"SenTomCotton",
+"SenDanSullivan",
+"SenatorRisch",
+"SenatorCollins",
+"JerryMoran",
+"SenJohnKennedy",
+"SenatorRounds",
+"lisamurkowski",
+"SenBobCorker",
+"SenShelby",
+"SenatorStrange",
+"SenAlexander",
+"InhofePress",
+"MikeCrapo",
+"SenJohnBarrasso",
+"JohnBoozman",
+"SenMikeLee",
+"SenThadCochran",
+"SenSasse"]
+
+dragon = list(range(0,98))
+q=0
+    
+unique_names = list(set(names))
+for q in dragon:
+    if sens[q] in list(set(names)): 
+        unique_names.remove(sens[q])
+    q += 1
+    
+print (unique_names)
+
+df = pd.DataFrame(unique_names)
+df.to_csv(path_or_buf='Replies_Reps_4020_Fin.csv')
