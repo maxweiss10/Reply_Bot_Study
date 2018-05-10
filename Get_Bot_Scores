@@ -1,0 +1,41 @@
+import time
+import csv
+import botometer
+import pandas as pd
+import numpy as np
+
+time.sleep(60)
+
+with open('C:\\Users\Max Weiss\Desktop\Rando_All_Replies_Users.csv', 'rt') as f:
+    reader = csv.reader(f, delimiter=' ')
+    my_list = list(reader)
+    
+flattened_list = []
+    
+for x in my_list:
+    for y in x:
+        flattened_list.append(y)
+your_list = flattened_list[25768:25868]
+
+mashape_key = "Xs5PEgmPrMmshx0FsHEuIntQ76bWp1BcyUVjsnb7Me7Ph2ELIo"
+twitter_app_auth = {
+    'consumer_key': "Q3BuOCb6YpCcjxRLX80si7iaY",
+    'consumer_secret': "8LmPPMK1j40QKn3jKzNP7MSGQXL90ZXfbHLtRbRR6d1mZKVQwe",
+    'access_token': "462603440-1WpphlO6HmRcVDZJjglIosJekSOmLLSQ2rkAC3b9",
+    'access_token_secret': "4A2vZ2ioqwHJANDAHZTPFoKp9scbN9zTAnhlXbkLboZdZ",
+  }
+bom = botometer.Botometer(wait_on_ratelimit=True,
+                          mashape_key=mashape_key,
+                          **twitter_app_auth)
+
+scores = []
+for account in your_list:
+    try:
+        scores.append((account, bom.check_account(account)["scores"]["english"]))
+        print(account)
+    except:
+        pass
+with open("Botometer_Replies_Section_R_258_Rand_Results.csv", "w") as f:
+    f.write("account,score\n")
+    for i in range(len(scores)):
+        f.write("{},{}\n".format(scores[i][0], scores[i][1]))
